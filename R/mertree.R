@@ -34,7 +34,7 @@
 #' data(Orthodont, package = "nlme")
 #' fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
 #' fm2 <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont,
-#'                unbiased = FALSE)
+#'                unbiased = FALSE, tree.control = rpart.control(cp = 0))
 mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
                      lmer.control = lmerControl(calc.derivs = FALSE),
                      tree.control = if (unbiased) ctree_control(mincriterion = 0.95) else rpart.control(),
@@ -149,12 +149,19 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
   # Print warning message about terminal node means
   warning("terminal node estimates are incorrect")
 
+  # Matched call
   mcall <- match.call()
+
+  # Matrix of node assignments and adjusted means
+  adj_node_means <- unique(cbind("node" = .where,
+                                 "adjy" = predict(lmer_fit, re.form = NA)))
+  rownames(adj_node_means) <- NULL
 
   # Return classed list of results
   res <- list("tree_fit" = tree_fit,
               "lmer_fit" = lmer_fit,
               "iter" = iter,
+              "adj_node_means" = adj_node_means,
               "call" = mcall)
   class(res) <- "mertree"
   res
@@ -225,6 +232,11 @@ confint.mertree <- function(object, ...) {
 #' @method predict mertree
 #' @importFrom stats predict
 #' @export
-predict.mertree <- function(object, newdata, ...) {
-  predict(object$lmer_fit, re.form = NA, ...)
+predict.mertree <- function(object, ...) {
+  # FIXME: There's got to be a simpler way to accomplish this!
+  x <- data.frame(node = assign_node(object, ...))
+  x$id <- seq_len(nrow(x))
+  y <- object$adj_node_means
+  z <- merge(x, y, by = "node")
+  z[order(z$id), ]$adjy
 }

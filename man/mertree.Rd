@@ -47,6 +47,6 @@ model to capture complex correlation structure.
 data(Orthodont, package = "nlme")
 fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
 fm2 <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont,
-               unbiased = FALSE)
+               unbiased = FALSE, tree.control = rpart.control(cp = 0))
 }
 
