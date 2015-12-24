@@ -1,0 +1,17 @@
+{
+    "contents" : "Package: mertree\nType: Package\nTitle: Regression Trees for Longitudinal and Panel Data\nVersion: 0.0.1\nDate: 2015-12-23\nAuthors@R: person(\"Brandon\", \"Greenwell\", email = \"greenwell.brandon@gmail.com\",\n  role = c(\"aut\", \"cre\"))\nMaintainer: Who to complain to <yourfault@somewhere.net>\nDescription: An alternative implementation of REEMtree (Sela and Simonoff, 2011)\n    and REEMctree (Fu and Simonoff, 2015) that uses lme4, as opposed to the\n    recomended nlme package, for efficient computation of mixed-effects models\n    with large data sets.\nDepends:\n    base,\nSuggests:\n    testthat\nLicense: GPL (>= 2)\nRoxygenNote: 5.0.1\n",
+    "created" : 1450885641198.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "577857154",
+    "id" : "815CCD50",
+    "lastKnownWriteTime" : 1450891495,
+    "path" : "~/Desktop/Dropbox/devel/mertree/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "dcf"
+}

@@ -1,0 +1,17 @@
+{
+    "contents" : "context(\"formula\")\n\ntest_that(\"formula functions work as expected\", {\n\n  # Example formula\n  form <- y ~ x1 + x2 + x1 * x2 + (0 + 1 | id) + (0 + x1 | id)\n\n  # Extract response name\n  yname <- get_response_name(form)\n  expect_identical(yname, \"y\")\n\n  # Extract fixed effects portion of formula\n  fixed <- get_fixed_formula(form)\n  expect_identical(fixed, \"x1 + x2 + x1 * x2\")\n\n  # Extract random effects portion of formula\n  random <- get_random_formula(form)\n  expect_identical(random, \"(0 + 1 | id) + (0 + x1 | id)\")\n\n  # rpart and ctree formula\n  tree_formula <- make_tree_formula(yname, fixed)\n  expect_equal(tree_formula, y ~ x1 + x2 + x1 * x2)\n\n  # lmer formula\n  lmer_formula <- make_lmer_formula(yname, fixed, random)\n  expect_equal(lmer_formula, form)\n\n  # Just fit an intercept (used when tree contains no splits)\n  expect_equal(make_lmer_formula(\"y\", \"1\"), y ~ 1)\n\n})\n",
+    "created" : 1450892429078.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "490994831",
+    "id" : "106E480B",
+    "lastKnownWriteTime" : 1450892433,
+    "path" : "~/Desktop/Dropbox/devel/mertree/tests/testthat/test-formula.R",
+    "project_path" : "tests/testthat/test-formula.R",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "################################################################################\n# Example\n################################################################################\n\n# Required packages\nlibrary(lme4)\nlibrary(party)\n\n# Load data\ndata(simpleREEMdata, package = \"REEMtree\")\nsimpleREEMdata$D <- as.factor(simpleREEMdata$D)\n\nfm <- mertree(Y ~ D + t + X + (1|ID), data = simpleREEMdata,\n              do.trace = TRUE)\nfm2 <- mertree(Y ~ D + t + X + (1|ID), data = simpleREEMdata,\n               unbiased = FALSE, cv = TRUE, do.trace = TRUE)\nplot(fm)\nplot(fm2)\n",
+    "created" : 1450885591917.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1489420511",
+    "id" : "F7FEDF47",
+    "lastKnownWriteTime" : 1450885610,
+    "path" : "~/Desktop/mertree-example.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
