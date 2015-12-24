@@ -12,6 +12,8 @@
 #' @export
 partial_1d <- function(object, x.name, n, newdata) {
 
+  stopifnot(inherits(object, "mertree"))
+
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
 
@@ -21,15 +23,12 @@ partial_1d <- function(object, x.name, n, newdata) {
     sux <- seq(from = min(sux), to = max(sux), length = n)
   }
 
-  # Initialize vector to store partial dependence values
-  pd <- numeric(length = length(sux))
-
-  # For now, just use a for loop
-  for (i in seq_len(length(sux))) {
+  # Compute average prediction for each unique value
+  pd <- sapply(sux, FUN = function(x) {
     temp <- .data
-    temp[[x.name]] <- sux[i]
-    pd[i] <- mean(predict(object, newdata = temp))
-  }
+    temp[[x.name]] <- x
+    mean(predict(object, newdata = temp))
+  })
 
   # Return data frame of partial dependence values
   pd_df <- data.frame(x = sux, y = pd)
@@ -55,6 +54,39 @@ partial_1d <- function(object, x.name, n, newdata) {
 #'   computing the partial dependence values for \code{x2.name}.
 #' @param newdata An optional data frame.
 #' @export
-partial_2d <- function(object, x.name, n, newdata) {
-  NULL
+partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata) {
+
+  stopifnot(inherits(object, "mertree"))
+
+  # Data frame
+  .data <- if (missing(newdata)) eval(object$call$data) else newdata
+
+  # Sorted unique values of the first independent variable
+  sux1 <- sort(unique(.data[[x1.name]]))
+  if (!missing(n1)) {
+    sux1 <- seq(from = min(sux1), to = max(sux1), length = n1)
+  }
+
+  # Sorted unique values of the second independent variable
+  sux2 <- sort(unique(.data[[x2.name]]))
+  if (!missing(n2)) {
+    sux2 <- seq(from = min(sux2), to = max(sux2), length = n2)
+  }
+
+  # Data frame of unique combinations
+  xgrid <- expand.grid("x1" = sux1, "x2" = sux2)
+
+  # Compute average prediction for each unique value
+  pd <- apply(xgrid, 1, function(x) {
+    temp <- .data
+    temp[[x1.name]] <- x[1]
+    temp[[x2.name]] <- x[2]
+    mean(predict(object, newdata = temp))
+  })
+
+  # Return data frame of partial dependence values
+  pd_df <- cbind(xgrid, pd)
+  names(pd_df) <- c(x1.name, x2.name, "y")
+  pd_df
+
 }

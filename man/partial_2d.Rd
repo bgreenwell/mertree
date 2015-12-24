@@ -4,12 +4,10 @@
 \alias{partial_2d}
 \title{Partial Dependence (Two Variables)}
 \usage{
-partial_2d(object, x.name, n, newdata)
+partial_2d(object, x1.name, x2.name, n1, n2, newdata)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}
-
-\item{newdata}{An optional data frame.}
 
 \item{x1.name}{Character string giving the name of the first independent
 variable of interest.}
@@ -22,6 +20,8 @@ computing the partial dependence values for \code{x1.name}.}
 
 \item{n2}{Integer giving the number of unique data points to use in
 computing the partial dependence values for \code{x2.name}.}
+
+\item{newdata}{An optional data frame.}
 }
 \description{
 One- and two-dimensional partial dependence plots for objects of class
