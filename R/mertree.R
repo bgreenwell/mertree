@@ -17,6 +17,9 @@
 #' @param lmer.control List of control parameters for \code{\link{lmer}}.
 #' @param tree.control List of control parameters for \code{\link{ctree}} or
 #'   \code{\link{rpart}}.
+#' @param cv Logical indicating whether or not to prune each tree based on
+#'   cross-validations. ONly used when \code{unbiased = FALSE}. Default is \
+#'   \code{TRUE}.
 #' @param tol The desired accuracy (convergence tolerance). Default is
 #'   \code{0.001)}
 #' @param maxiter Integer specifying the maximum number of iterations. Default
@@ -29,12 +32,6 @@
 #' @importFrom stats logLik predict
 #'
 #' @export
-#'
-#' @examples
-#' data(Orthodont, package = "nlme")
-#' fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
-#' fm2 <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont,
-#'                unbiased = FALSE, tree.control = rpart.control(cp = 0))
 mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
                      lmer.control = lmerControl(calc.derivs = FALSE),
                      tree.control = if (unbiased) ctree_control(mincriterion = 0.95) else rpart.control(),
@@ -174,6 +171,8 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 #' Variable importance scores for \code{"mertree"} objects.
 #'
 #' @param object An object that inherits from class \code{"mertree"}.
+#' @param ... Additional optional arguments. At present, no optional arguments
+#'   are used.
 #' @export
 varimp <- function(object, ...) {
   stopifnot(inherits(object, "mertree"))
@@ -190,11 +189,11 @@ varimp <- function(object, ...) {
 #' @importFrom graphics plot
 #' @importFrom rpart.plot prp
 #' @export
-plot.mertree <- function(object, ...) {
-  if (inherits(object$tree_fit, "rpart")) {
-    prp(object$tree_fit, ...)
+plot.mertree <- function(x, ...) {
+  if (inherits(x$tree_fit, "rpart")) {
+    prp(x$tree_fit, ...)
   } else {
-    plot(object$tree_fit, ...)
+    plot(x$tree_fit, ...)
   }
 }
 
@@ -202,15 +201,15 @@ plot.mertree <- function(object, ...) {
 #' @method text mertree
 #' @importFrom graphics text
 #' @export
-text.mertree <- function(object, ...) {
-  text(object$tree_fit, ...)
+text.mertree <- function(x, ...) {
+  text(x$tree_fit, ...)
 }
 
 
 #' @method print mertree
 #' @export
-print.mertree <- function(object, ...) {
-  print(object$lmer_fit)
+print.mertree <- function(x, ...) {
+  print(x$lmer_fit)
 }
 
 

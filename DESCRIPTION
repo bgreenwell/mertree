@@ -10,6 +10,13 @@ Description: An alternative implementation of REEMtree and REEMctree that uses
     lme4 for efficient computation of mixed-effects models with large data sets.
 Depends:
     base,
+Imports:
+    graphics,
+    lme4,
+    party,
+    rpart,
+    rpart.plot,
+    stats,
 Suggests:
     testthat
 License: GPL (>= 2)

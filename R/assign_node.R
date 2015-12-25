@@ -10,8 +10,6 @@
 #' @param object An object that inherits from class \code{rpart}.
 #' @param newdata An optional data frame in which to look for variables with
 #'   which to predict. If omitted, the fitted values are used.
-#' @param na.action a function which indicates what should happen when the
-#'   data contain \code{NA}s.
 #' @param ... Additional optional arguments. At present, no optional arguments
 #'   are used.
 #'
@@ -24,7 +22,7 @@ assign_node <- function(object, newdata, ...) {
 
 #' @method assign_node rpart
 #' @importFrom stats predict
-assign_node.rpart <- function(object, newdata, na.action = na.pass, ...) {
+assign_node.rpart <- function(object, newdata, ...) {
 
   # Extract data if none are specified
   .data <- if (missing(newdata)) eval(object$call$data) else newdata

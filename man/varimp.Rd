@@ -8,6 +8,9 @@ varimp(object, ...)
 }
 \arguments{
 \item{object}{An object that inherits from class \code{"mertree"}.}
+
+\item{...}{Additional optional arguments. At present, no optional arguments
+are used.}
 }
 \description{
 Variable importance scores for \code{"mertree"} objects.

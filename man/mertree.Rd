@@ -29,6 +29,10 @@ to optimize the REML criterion (as opposed to the log-likelihood).}
 \item{tree.control}{List of control parameters for \code{\link{ctree}} or
 \code{\link{rpart}}.}
 
+\item{cv}{Logical indicating whether or not to prune each tree based on
+cross-validations. ONly used when \code{unbiased = FALSE}. Default is \
+\code{TRUE}.}
+
 \item{tol}{The desired accuracy (convergence tolerance). Default is
 \code{0.001)}}
 
@@ -42,11 +46,5 @@ Fits an unbiased regression tree to longitudinal or panel data by iterating
 back and forth between a conditional inference regression tree to capture
 complex interactions and nonlinear relationaships and a linear mixed-effects
 model to capture complex correlation structure.
-}
-\examples{
-data(Orthodont, package = "nlme")
-fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
-fm2 <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont,
-               unbiased = FALSE, tree.control = rpart.control(cp = 0))
 }
 
