@@ -1,5 +1,8 @@
 # mertree
 
+[![Build Status](https://travis-ci.org/bgreenwell/mertree.svg?branch=master)](https://travis-ci.org/bgreenwell/mertree)
+[![Coverage Status](https://img.shields.io/codecov/c/github/bgreenwell/mertree.svg)](https://codecov.io/github/bgreenwell/mertree?branch=master)
+
 `mertree` (mixed-effects regression trees) is an alternative implementation of `REEMtree` (Sela and Simonoff, 2012) and `REEMctree` (Fu and Simonoff, 2014) that uses `lme4` (Bates, et al., 2015) for efficient computation of mixed-effects models with large data sets.
 
 ## Installation
