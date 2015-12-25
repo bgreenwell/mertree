@@ -233,10 +233,7 @@ confint.mertree <- function(object, ...) {
 #' @importFrom stats predict
 #' @export
 predict.mertree <- function(object, ...) {
-  # FIXME: There's got to be a simpler way to accomplish this!
-  x <- data.frame(node = assign_node(object, ...))
-  x$id <- seq_len(nrow(x))
-  y <- object$adj_node_means
-  z <- merge(x, y, by = "node")
-  z[order(z$id), ]$adjy
+  map <- object$adj_node_means  # unique key, value pairs
+  values <- assign_node(object, ...)  # new values to map
+  unname(setNames(map[, "adjy"], map[, "node"])[as.character(values)])  # map new values
 }
