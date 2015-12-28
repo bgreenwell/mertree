@@ -32,8 +32,7 @@ assign_node.rpart <- function(object, newdata, ...) {
   # object$frame$yval <- rownames(object$frame)  # as.numeric(rownames(object$frame))
 
   # Return node predictions
-  unname(predict(object, newdata = .data, type = "vector",
-                 na.action = na.action, ...))
+  unname(predict(object, newdata = .data, type = "vector", ...))
 
 }
 
