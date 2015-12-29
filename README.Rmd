@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/bgreenwell/mertree.svg?branch=master)](https://travis-ci.org/bgreenwell/mertree)
 [![Coverage Status](https://img.shields.io/codecov/c/github/bgreenwell/mertree.svg)](https://codecov.io/github/bgreenwell/mertree?branch=master)
 
-`mertree` (mixed-effects regression trees) is an alternative implementation of `REEMtree` (Sela and Simonoff, 2012) and `REEMctree` (Fu and Simonoff, 2014) that uses `lme4` (Bates, et al., 2015) for efficient computation of mixed-effects models with large data sets.
+`mertree` (mixed-effects regression trees) is an alternative implementation of [`REEMtree`](http://pages.stern.nyu.edu/~jsimonof/REEMtree/) and [`REEMctree`](http://people.stern.nyu.edu/jsimonof/unbiasedREEM/) that uses [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) for efficient computation of mixed-effects models with large data sets.
 
 ## Installation
 Package `mertree` is not currently available from CRAN, but the development version is hosted on GitHub at https://github.com/bgreenwell/mertree and can be downloaded using [`devtools`](https://github.com/hadley/devtools):
