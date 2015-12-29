@@ -23,6 +23,7 @@ assign_node <- function(object, newdata, ...) {
 
 
 #' @method assign_node rpart
+<<<<<<< HEAD
 #' @import rpart
 #' @importFrom stats .checkMFClasses delete.response model.frame
 assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
@@ -41,6 +42,20 @@ assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
     }
     rpart:::pred.rpart(object, rpart:::rpart.matrix(newdata))
   }
+=======
+#' @importFrom stats predict
+assign_node.rpart <- function(object, newdata, ...) {
+
+  # Extract data if none are specified
+  .data <- if (missing(newdata)) eval(object$call$data) else newdata
+
+  # Replace fitted values with the corresponding node number
+  object$frame$yval <- seq_len(NROW(object$frame))
+  # object$frame$yval <- rownames(object$frame)  # as.numeric(rownames(object$frame))
+
+  # Return node predictions
+  unname(predict(object, newdata = .data, type = "vector", ...))
+>>>>>>> c33a8555a64cb2a6652dd0a5d0196fdabe124d93
 
 }
 
