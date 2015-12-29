@@ -1,9 +1,9 @@
-#' Regression Trees for Longitudinal and Panel Data
+#' Regression Trees for Longitudinal and Clustered Data
 #'
-#' Fits an unbiased regression tree to longitudinal or panel data by iterating
-#' back and forth between a conditional inference regression tree to capture
-#' complex interactions and nonlinear relationaships and a linear mixed-effects
-#' model to capture complex correlation structure.
+#' Fits an unbiased regression tree to longitudinal or clusteredl data by
+#' iterating back and forth between a conditional inference regression tree to
+#' capture complex interactions and nonlinear relationaships and a linear
+#' mixed-effects model to capture complex correlation structure.
 #'
 #' @param formula An appropriate \code{\link{lmer}}-style formula.
 #' @param data An optional data frame containing the variables named in
@@ -18,7 +18,7 @@
 #' @param tree.control List of control parameters for \code{\link{ctree}} or
 #'   \code{\link{rpart}}.
 #' @param cv Logical indicating whether or not to prune each tree based on
-#'   cross-validations. ONly used when \code{unbiased = FALSE}. Default is \
+#'   cross-validations. Only used when \code{unbiased = FALSE}. Default is
 #'   \code{TRUE}.
 #' @param tol The desired accuracy (convergence tolerance). Default is
 #'   \code{0.001)}
@@ -28,7 +28,6 @@
 #'
 #' @importFrom lme4 lmer lmerControl
 #' @importFrom party ctree ctree_control where
-#' @importFrom rpart prune rpart rpart.control
 #' @importFrom stats logLik predict
 #'
 #' @export

@@ -14,13 +14,17 @@ which to predict. If omitted, the fitted values are used.}
 
 \item{...}{Additional optional arguments. At present, no optional arguments
 are used.}
+
+\item{na.action}{The default action deletes all observations for which the
+response is missing, but keeps those in which one or more predictors are
+missing.}
 }
 \value{
 A numeric vector containing the terminal node each observation
   belongs to.
 }
 \description{
-Assign each observation of the original data (or newdata) to a terminal
-node. Based on a nice hack from stackoverflow.
+Assign observations to a terminal node. Based on a nice hack from
+stackoverflow.
 }
 

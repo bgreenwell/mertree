@@ -2,7 +2,7 @@
 % Please edit documentation in R/mertree.R
 \name{mertree}
 \alias{mertree}
-\title{Regression Trees for Longitudinal and Panel Data}
+\title{Regression Trees for Longitudinal and Clustered Data}
 \usage{
 mertree(formula, data, unbiased = TRUE, initial_re, REML = TRUE,
   lmer.control = lmerControl(calc.derivs = FALSE), tree.control = if
@@ -30,7 +30,7 @@ to optimize the REML criterion (as opposed to the log-likelihood).}
 \code{\link{rpart}}.}
 
 \item{cv}{Logical indicating whether or not to prune each tree based on
-cross-validations. ONly used when \code{unbiased = FALSE}. Default is \
+cross-validations. Only used when \code{unbiased = FALSE}. Default is
 \code{TRUE}.}
 
 \item{tol}{The desired accuracy (convergence tolerance). Default is
@@ -42,9 +42,9 @@ is \code{1000}.}
 \item{do.trace}{Logical indicating whether or not to print trace information.}
 }
 \description{
-Fits an unbiased regression tree to longitudinal or panel data by iterating
-back and forth between a conditional inference regression tree to capture
-complex interactions and nonlinear relationaships and a linear mixed-effects
-model to capture complex correlation structure.
+Fits an unbiased regression tree to longitudinal or clusteredl data by
+iterating back and forth between a conditional inference regression tree to
+capture complex interactions and nonlinear relationaships and a linear
+mixed-effects model to capture complex correlation structure.
 }
 
