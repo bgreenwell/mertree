@@ -13,6 +13,31 @@ devtools::install_github("bgreenwell/mertree")
 ```
 Bug reports should be submitted to https://github.com/bgreenwell/mertree/issues.
 
+## Basic usage
+
+```{r}
+# Required packages
+library(ggplot2)
+library(mertree)
+
+# Example data
+data(Orthodont, package = "nlme")
+
+# mertree
+fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
+
+# Tree diagram
+plot(fm)
+
+# Bivariate partial dependence plot
+pd <- partial_2d(fm, x1.name = "age", x2.name = "Sex")
+ggplot(pd, aes(x = age, y = y, color = Sex)) + 
+  geom_line() +
+  theme_light() +
+  xlab("Age") +
+  ylab("Partial dependence")
+```
+
 ## References
 
 Rebecca J. Sela and Jeffrey S. Simonoff (2012). "RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data". _Machine Learning_, 86(2), 169-207.
