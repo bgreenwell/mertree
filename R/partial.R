@@ -56,7 +56,7 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
 #'   computing the partial dependence values for \code{x2.name}.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments passed onto \code{aaply}.
-#' @importFrom plyr aaply
+#' @importFrom plyr adply
 #' @export
 partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
   
