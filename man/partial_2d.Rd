@@ -4,7 +4,7 @@
 \alias{partial_2d}
 \title{Partial Dependence (Two Variables)}
 \usage{
-partial_2d(object, x1.name, x2.name, n1, n2, newdata)
+partial_2d(object, x1.name, x2.name, n1, n2, newdata, ...)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}
@@ -22,6 +22,8 @@ computing the partial dependence values for \code{x1.name}.}
 computing the partial dependence values for \code{x2.name}.}
 
 \item{newdata}{An optional data frame.}
+
+\item{...}{Additional optional arguments passed onto \code{aaply}.}
 }
 \description{
 One- and two-dimensional partial dependence plots for objects of class

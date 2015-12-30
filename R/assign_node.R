@@ -17,13 +17,12 @@
 #'
 #' @return A numeric vector containing the terminal node each observation
 #'   belongs to.
-assign_node <- function(object, newdata, ...) {
+assign_node <- function(object, newdata, na.action, ...) {
   UseMethod("assign_node")
 }
 
 
 #' @method assign_node rpart
-#' @import rpart
 #' @importFrom stats .checkMFClasses delete.response model.frame
 assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
 

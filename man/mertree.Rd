@@ -6,8 +6,8 @@
 \usage{
 mertree(formula, data, unbiased = TRUE, initial_re, REML = TRUE,
   lmer.control = lmerControl(calc.derivs = FALSE), tree.control = if
-  (unbiased) ctree_control(mincriterion = 0.95) else rpart.control(),
-  cv = TRUE, tol = 0.001, maxiter = 100L, do.trace = FALSE)
+  (unbiased) ctree_control() else rpart.control(), cv = TRUE, tol = 0.001,
+  maxiter = 100L, do.trace = FALSE)
 }
 \arguments{
 \item{formula}{An appropriate \code{\link{lmer}}-style formula.}

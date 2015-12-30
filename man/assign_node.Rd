@@ -4,7 +4,7 @@
 \alias{assign_node}
 \title{Terminal Node Assignment}
 \usage{
-assign_node(object, newdata, ...)
+assign_node(object, newdata, na.action, ...)
 }
 \arguments{
 \item{object}{An object that inherits from class \code{rpart}.}
@@ -12,12 +12,12 @@ assign_node(object, newdata, ...)
 \item{newdata}{An optional data frame in which to look for variables with
 which to predict. If omitted, the fitted values are used.}
 
-\item{...}{Additional optional arguments. At present, no optional arguments
-are used.}
-
 \item{na.action}{The default action deletes all observations for which the
 response is missing, but keeps those in which one or more predictors are
 missing.}
+
+\item{...}{Additional optional arguments. At present, no optional arguments
+are used.}
 }
 \value{
 A numeric vector containing the terminal node each observation

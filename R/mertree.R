@@ -28,12 +28,13 @@
 #'
 #' @importFrom lme4 lmer lmerControl
 #' @importFrom party ctree ctree_control where
+#' @importFrom rpart prune rpart rpart.control
 #' @importFrom stats logLik predict
 #'
 #' @export
 mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
                      lmer.control = lmerControl(calc.derivs = FALSE),
-                     tree.control = if (unbiased) ctree_control else rpart.control,
+                     tree.control = if (unbiased) ctree_control() else rpart.control(),
                      cv = TRUE, tol = 0.001, maxiter = 100L, do.trace = FALSE) {
 
   # Initialize random effects estimate
