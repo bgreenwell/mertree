@@ -1,6 +1,6 @@
 #' Regression Trees for Longitudinal and Clustered Data
 #'
-#' Fits an unbiased regression tree to longitudinal or clusteredl data by
+#' Fits an unbiased regression tree to longitudinal or clustered data by
 #' iterating back and forth between a conditional inference regression tree to
 #' capture complex interactions and nonlinear relationaships and a linear
 #' mixed-effects model to capture complex correlation structure.
