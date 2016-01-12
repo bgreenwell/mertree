@@ -22,7 +22,7 @@ get_response_name <- function(formula) {
 #' @importFrom lme4 nobars
 #' @export
 get_fixed_formula <- function(formula) {
-  deparse(nobars(formula)[[3L]])
+  deparse(nobars(formula)[[3L]], width.cutoff = 500L)
 }
 
 
