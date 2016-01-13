@@ -42,7 +42,7 @@ is \code{1000}.}
 \item{do.trace}{Logical indicating whether or not to print trace information.}
 }
 \description{
-Fits an unbiased regression tree to longitudinal or clusteredl data by
+Fits an unbiased regression tree to longitudinal or clustered data by
 iterating back and forth between a conditional inference regression tree to
 capture complex interactions and nonlinear relationaships and a linear
 mixed-effects model to capture complex correlation structure.

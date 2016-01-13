@@ -21,4 +21,6 @@ Imports:
 Suggests:
     testthat
 License: GPL (>= 2)
+LazyLoad: true
+LazyData: true
 RoxygenNote: 5.0.1
