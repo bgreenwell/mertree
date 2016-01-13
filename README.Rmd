@@ -15,27 +15,32 @@ Bug reports should be submitted to https://github.com/bgreenwell/mertree/issues.
 
 ## Basic usage
 
-```{r}
+```{r, warning=FALSE}
 # Required packages
 library(ggplot2)
 library(mertree)
 
-# Example data
-data(Orthodont, package = "nlme")
-
 # mertree
-fm <- mertree(distance ~ age + Sex + (1 | Subject), data = Orthodont)
+fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject), 
+              data = simd,
+              unbiased = TRUE,
+              do.trace = TRUE)
 
 # Tree diagram
 plot(fm)
 
-# Bivariate partial dependence plot
-pd <- partial_2d(fm, x1.name = "age", x2.name = "Sex")
-ggplot(pd, aes(x = age, y = y, color = Sex)) + 
+# Univariate partial dependence plot for time: should be linear
+pd_time <- partial_1d(fm, x.name = "time")
+ggplot(pd_time, aes(time, y)) +
   geom_line() +
   theme_light() +
-  xlab("Age") +
+  xlab("Time") +
   ylab("Partial dependence")
+
+# Bivariate partial dependence plot for x2 and x4
+pd_24 <- partial_2d(fm, x1.name = "x2", x2.name = "x4", n1 = 15, n2 = 15, 
+                    .progress = "text")
+lattice::wireframe(y ~ x2*x4, data = pd_24)
 ```
 
 ## References
