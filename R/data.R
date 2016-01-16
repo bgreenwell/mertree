@@ -1,23 +1,33 @@
 #' Simulated Data
 #'
-#' The data are described in [REF1] and (originally) in[REF2].
+#' Data from Frieman (1991) and Breiman (1996). However, here the errors were
+#' generated from a 5-dimensional Gaussian distribution with zero mean and a
+#' variance-covariance matrix with 4 along the diagonal and 0.8 in the
+#' off-diagonal; see Zhang (1997) for details. The function
+#' \code{\link{mlbench.friedman1}} in the \code{mlbench} package simulates data
+#' from the same function, but with independent errors.
 #'
 #' \itemize{
-#'   \item \code{subject} Subject ID.
-#'   \item \code{x1} First predictor variable.
-#'   \item \code{x2} Second predictor variable.
-#'   \item \code{x3} Third predictor variable.
-#'   \item \code{x4} Fourth predictor variable.
-#'   \item \code{x5} Fifth predictor variable.
-#'   \item \code{x6} Sixth predictor variable.
-#'   \item \code{time} Time variable.
-#'   \item \code{y} Response variable.
+#'   \item \code{subject}: Subject ID.
+#'   \item \code{x1}: Baseline covariate.
+#'   \item \code{x2}: Baseline covariate.
+#'   \item \code{x3}: Baseline covariate.
+#'   \item \code{x4}: Baseline covariate.
+#'   \item \code{x5}: Baseline covariate.
+#'   \item \code{x6}: Time-dependent covariate.
+#'   \item \code{time}: Time variable.
+#'   \item \code{y}: Response variable.
 #' }
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 500 rows and 9 variables
 #' @name simd
 #' @source
-#' [REF1]
-#' [REF2]
+#' Breiman, Leo (1996) Bagging predictors. Machine Learning 24, pages 123-140.
+#'
+#' Friedman, Jerome H. (1991) Multivariate adaptive regression splines. The
+#' Annals of Statistics 19 (1), pages 1-67.
+#'
+#' Zhang, H.. (1997). Multivariate Adaptive Splines for Analysis of Longitudinal
+#' Data. Journal of Computational and Graphical Statistics, 6(1), 74–91.
 NULL

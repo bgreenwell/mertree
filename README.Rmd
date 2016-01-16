@@ -22,9 +22,9 @@ library(mertree)
 
 # mertree
 fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject), 
-              data = simd,
-              unbiased = TRUE,
-              do.trace = TRUE)
+              data = simd,      # simulated data (included with package)
+              unbiased = TRUE,  # use a conditional inference tree
+              do.trace = TRUE)  # print trace information
 
 # Tree diagram
 plot(fm)
