@@ -144,7 +144,7 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
   }
 
   # Print warning message about terminal node means
-  warning("terminal node estimates are incorrect")
+  # warning("terminal node estimates are incorrect")
 
   # Matched call
   mcall <- match.call()

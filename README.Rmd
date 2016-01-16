@@ -6,6 +6,7 @@
 `mertree` (mixed-effects regression trees) is an alternative implementation of [`REEMtree`](http://pages.stern.nyu.edu/~jsimonof/REEMtree/) and [`REEMctree`](http://people.stern.nyu.edu/jsimonof/unbiasedREEM/) that uses [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) for efficient computation of mixed-effects models with large data sets.
 
 ## Installation
+
 Package `mertree` is not currently available from CRAN, but the development version is hosted on GitHub at https://github.com/bgreenwell/mertree and can be downloaded using [`devtools`](https://github.com/hadley/devtools):
 ```r
 # Assuming devtools is already installed
@@ -17,30 +18,31 @@ Bug reports should be submitted to https://github.com/bgreenwell/mertree/issues.
 
 ```{r, warning=FALSE}
 # Required packages
-library(ggplot2)
+library(lattice)  # for wireframe function
 library(mertree)
 
-# mertree
-fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject), 
-              data = simd,      # simulated data (included with package)
-              unbiased = TRUE,  # use a conditional inference tree
-              do.trace = TRUE)  # print trace information
+# Fit a mertree
+fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject),
+              data = simd,
+              unbiased = TRUE,
+              do.trace = TRUE)
 
-# Tree diagram
-plot(fm)
+# Partial dependence on time
+partial_1d(fm, x.name = "time", newdata = simd, .progress = "tk") %>%
+  plot(type = "l")
 
-# Univariate partial dependence plot for time: should be linear
-pd_time <- partial_1d(fm, x.name = "time")
-ggplot(pd_time, aes(time, y)) +
-  geom_line() +
-  theme_light() +
-  xlab("Time") +
-  ylab("Partial dependence")
+# Partial dependence on covariates (notice x3 and x6 are flat!)
+par(mfrow = c(3, 2))
+for (i in 1:6) {
+  partial_1d(fm, x.name = paste0("x", i), newdata = simd, .progress = "tk") %>%
+    plot(type = "l")
+}
 
-# Bivariate partial dependence plot for x2 and x4
-pd_24 <- partial_2d(fm, x1.name = "x2", x2.name = "x4", n1 = 15, n2 = 15, 
-                    .progress = "text")
-lattice::wireframe(y ~ x2*x4, data = pd_24)
+# Interaction between x1 and x4
+pd_14 <- partial_2d(fm, x1.name = "x1", x2.name = "x4", newdata = simd, 
+                    .progress = "tk",
+                    n1 = 20, n2 = 20)
+wireframe(y ~ x1 * x4, data = pd_14, drape = TRUE, colorkey = TRUE)
 ```
 
 ## References
