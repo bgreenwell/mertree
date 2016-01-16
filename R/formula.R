@@ -30,7 +30,12 @@ get_fixed_formula <- function(formula) {
 #' @importFrom lme4 findbars
 #' @export
 get_random_formula <- function(formula) {
-  paste0("(", findbars(formula), ")", collapse = " + ")
+  form <- paste0("(", findbars(formula), ")", collapse = " + ")
+  if (form == "()") {
+    NULL
+  } else {
+    form
+  }
 }
 
 
@@ -47,7 +52,7 @@ get_random_formula <- function(formula) {
 #'
 #' @export
 make_lmer_formula <- function(response, fixed, random) {
-  if (missing(random)) {
+  if (missing(random) || is.null(random)) {
     formula(paste(response, fixed, sep = " ~ "))
   } else {
     formula(paste(response, paste(fixed, random, sep = " + "), sep = " ~ "))
