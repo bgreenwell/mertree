@@ -14,7 +14,7 @@
 #' @export
 partial_1d <- function(object, x.name, n, newdata, ...) {
   
-  stopifnot(inherits(object, "mertree"))
+  # stopifnot(inherits(object, "mertree"))
   
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
@@ -60,7 +60,7 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
 #' @export
 partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
   
-  stopifnot(inherits(object, "mertree"))
+  # stopifnot(inherits(object, "mertree"))
   
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
