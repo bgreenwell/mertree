@@ -13,18 +13,18 @@
 #' @importFrom plyr laply
 #' @export
 partial_1d <- function(object, x.name, n, newdata, ...) {
-  
-  stopifnot(inherits(object, "mertree"))
-  
+
+  # stopifnot(inherits(object, "mertree"))
+
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
-  
+
   # Sorted unique values of the independent variable
   sux <- sort(unique(.data[[x.name]]))
   if (!missing(n)) {
     sux <- seq(from = min(sux), to = max(sux), length = n)
   }
-  
+
   # Compute average prediction for each unique value
   pd <- laply(sux, .fun = function(x) {
     temp <- .data
@@ -36,7 +36,7 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
   pd_df <- data.frame(x = sux, y = pd)
   names(pd_df) <- c(x.name, "y")
   pd_df
-  
+
 }
 
 
@@ -59,27 +59,27 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
 #' @importFrom plyr adply
 #' @export
 partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
-  
-  stopifnot(inherits(object, "mertree"))
-  
+
+  # stopifnot(inherits(object, "mertree"))
+
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
-  
+
   # Sorted unique values of the first independent variable
   sux1 <- sort(unique(.data[[x1.name]]))
   if (!missing(n1)) {
     sux1 <- seq(from = min(sux1), to = max(sux1), length = n1)
   }
-  
+
   # Sorted unique values of the second independent variable
   sux2 <- sort(unique(.data[[x2.name]]))
   if (!missing(n2)) {
     sux2 <- seq(from = min(sux2), to = max(sux2), length = n2)
   }
-  
+
   # Data frame of unique combinations
   xgrid <- expand.grid("x1" = sux1, "x2" = sux2)
-  
+
   # Compute average prediction for each unique value
   pd_df <- adply(xgrid, .margins = 1, .fun = function(x) {
     temp <- .data
@@ -91,5 +91,5 @@ partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
   # Return data frame of partial dependence values
   names(pd_df) <- c(x1.name, x2.name, "y")
   pd_df
-  
+
 }
