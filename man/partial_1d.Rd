@@ -4,7 +4,7 @@
 \alias{partial_1d}
 \title{Partial Dependence (One Variable)}
 \usage{
-partial_1d(object, x.name, n, newdata, ...)
+partial_1d(object, x.name, n, x.class, newdata, ...)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}
@@ -14,6 +14,8 @@ interest.}
 
 \item{n}{Integer giving the number of unique data points to use in
 computing the partial dependence values.}
+
+\item{x.class}{Character string specifying the class for \code{x.name}.}
 
 \item{newdata}{An optional data frame.}
 

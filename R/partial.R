@@ -8,13 +8,12 @@
 #'   interest.
 #' @param n Integer giving the number of unique data points to use in
 #'   computing the partial dependence values.
+#' @param x.class Character string specifying the class for \code{x.name}.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments passed onto \code{aaply}.
 #' @importFrom plyr laply
 #' @export
-partial_1d <- function(object, x.name, n, newdata, ...) {
-
-  # stopifnot(inherits(object, "mertree"))
+partial_1d <- function(object, x.name, n, x.class, newdata, ...) {
 
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
@@ -23,6 +22,11 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
   sux <- sort(unique(.data[[x.name]]))
   if (!missing(n)) {
     sux <- seq(from = min(sux), to = max(sux), length = n)
+  }
+
+  # Make sure x has class x.class
+  if (!missing(x.class)) {
+    class(sux) <- x.class
   }
 
   # Compute average prediction for each unique value
@@ -54,13 +58,14 @@ partial_1d <- function(object, x.name, n, newdata, ...) {
 #'   computing the partial dependence values for \code{x1.name}.
 #' @param n2 Integer giving the number of unique data points to use in
 #'   computing the partial dependence values for \code{x2.name}.
+#' @param x1.class Character string specifying the class for \code{x1.name}.
+#' @param x2.class Character string specifying the class for \code{x2.name}.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments passed onto \code{aaply}.
 #' @importFrom plyr adply
 #' @export
-partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
-
-  # stopifnot(inherits(object, "mertree"))
+partial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,
+                       newdata, ...) {
 
   # Data frame
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
@@ -79,6 +84,14 @@ partial_2d <- function(object, x1.name, x2.name, n1, n2, newdata, ...) {
 
   # Data frame of unique combinations
   xgrid <- expand.grid("x1" = sux1, "x2" = sux2)
+
+  # Make sure x1 and x2 have the specified class
+  if (!missing(x1.class)) {
+    class(xgrid$x1) <- x1.class
+  }
+  if (!missing(x2.class)) {
+    class(xgrid$x2) <- x2.class
+  }
 
   # Compute average prediction for each unique value
   pd_df <- adply(xgrid, .margins = 1, .fun = function(x) {
