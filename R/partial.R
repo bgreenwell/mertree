@@ -11,6 +11,10 @@
 #' @param x.class Character string specifying the class for \code{x.name}.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments passed onto \code{aaply}.
+#' @note
+#' It may be necessary to supply a value for \code{x.class} when \code{n} is
+#' supplied. This is usually the case when \code{object} is of class
+#' \code{"BinaryTree"} or \code{"mertree"} (with \code{unbiased = TRUE}).
 #' @importFrom plyr laply
 #' @export
 partial_1d <- function(object, x.name, n, x.class, newdata, ...) {
@@ -62,6 +66,11 @@ partial_1d <- function(object, x.name, n, x.class, newdata, ...) {
 #' @param x2.class Character string specifying the class for \code{x2.name}.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments passed onto \code{aaply}.
+#' @note
+#' It may be necessary to supply values for \code{x1.class} or \code{x2.class}
+#' when \code{n1} or \code{n2}, respectively, are supplied. This is usually the
+#' case when \code{object} is of class \code{"BinaryTree"} or \code{"mertree"}
+#' (with \code{unbiased = TRUE}).
 #' @importFrom plyr adply
 #' @export
 partial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,

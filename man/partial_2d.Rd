@@ -33,4 +33,10 @@ computing the partial dependence values for \code{x2.name}.}
 One- and two-dimensional partial dependence plots for objects of class
 \code{mertree}.
 }
+\note{
+It may be necessary to supply values for \code{x1.class} or \code{x2.class}
+when \code{n1} or \code{n2}, respectively, are supplied. This is usually the
+case when \code{object} is of class \code{"BinaryTree"} or \code{"mertree"}
+(with \code{unbiased = TRUE}).
+}
 

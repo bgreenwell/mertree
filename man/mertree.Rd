@@ -5,9 +5,10 @@
 \title{Regression Trees for Longitudinal and Clustered Data}
 \usage{
 mertree(formula, data, unbiased = TRUE, initial_re, REML = TRUE,
-  lmer.control = lmerControl(calc.derivs = FALSE), tree.control = if
-  (unbiased) ctree_control() else rpart.control(), cv = TRUE, tol = 0.001,
-  maxiter = 100L, do.trace = FALSE)
+  lmer.control = lmerControl(calc.derivs = FALSE), lmer.verbose = 0L,
+  tree.control = if (unbiased) {     ctree_control() } else {    
+  rpart.control() }, cv = TRUE, tol = 0.001, maxiter = 100L,
+  do.trace = FALSE)
 }
 \arguments{
 \item{formula}{An appropriate \code{\link{lmer}}-style formula.}
@@ -25,6 +26,12 @@ effects. If omitted then defaults to zero.}
 to optimize the REML criterion (as opposed to the log-likelihood).}
 
 \item{lmer.control}{List of control parameters for \code{\link{lmer}}.}
+
+\item{lmer.verbose}{Integer specifying the verbosity of output printed during
+the call to \code{lmer}. If > 0, verbose output is generated during the
+optimization of the parameter estimates. If > 1, verbose output is
+generated during the individual PIRLS steps. Default is \code{0L} meaning
+to supress such output.}
 
 \item{tree.control}{List of control parameters for \code{\link{ctree}} or
 \code{\link{rpart}}.}

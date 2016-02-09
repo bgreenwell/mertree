@@ -15,6 +15,11 @@
 #' @param REML Logical indicating whether or not the estimates should be chosen
 #'   to optimize the REML criterion (as opposed to the log-likelihood).
 #' @param lmer.control List of control parameters for \code{\link{lmer}}.
+#' @param lmer.verbose Integer specifying the verbosity of output printed during
+#'   the call to \code{lmer}. If > 0, verbose output is generated during the
+#'   optimization of the parameter estimates. If > 1, verbose output is
+#'   generated during the individual PIRLS steps. Default is \code{0L} meaning
+#'   to supress such output.
 #' @param tree.control List of control parameters for \code{\link{ctree}} or
 #'   \code{\link{rpart}}.
 #' @param cv Logical indicating whether or not to prune each tree based on
@@ -34,7 +39,12 @@
 #' @export
 mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
                      lmer.control = lmerControl(calc.derivs = FALSE),
-                     tree.control = if (unbiased) ctree_control() else rpart.control(),
+                     lmer.verbose = 0L,
+                     tree.control = if (unbiased) {
+                       ctree_control()
+                     } else {
+                       rpart.control()
+                     },
                      cv = TRUE, tol = 0.001, maxiter = 100L, do.trace = FALSE) {
 
   # Initialize random effects estimate
@@ -120,14 +130,16 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
     # If the tree is a root (i.e., has no splits), then just fit an intercept
     if (min(.where) == max(.where)) {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "1"),
-                       data = newdata, REML = REML, control = lmer.control)
+                       data = newdata, REML = REML, control = lmer.control,
+                       verbose = lmer.verbose)
     }
     # Otherwise, fit an linear mixed-effects model using a factor for terminal
     # node indicator as the fixed effects
     else {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "terminal_node",
                                          random = random_formula),
-                       data = newdata, REML = REML, control = lmer.control)
+                       data = newdata, REML = REML, control = lmer.control,
+                       verbose = lmer.verbose)
     }
 
     # Update loop control variables
