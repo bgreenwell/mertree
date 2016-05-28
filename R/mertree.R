@@ -88,36 +88,34 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
       cat("  1. fitting tree...", "\n")
     }
 
-#     form <- make_tree_formula("adj_response_values", fixed = fixed_formula)
-#     print(form)
-#     print(tree.control)
-
+    # Tree formula
+    tform <- make_tree_formula("adj_response_values", fixed = fixed_formula)
+    
     # Fit a conditional inference tree
     if (unbiased) {
-      tree_fit <- ctree(make_tree_formula("adj_response_values",
-                                          fixed = fixed_formula),
-                        data = newdata, controls = tree.control)
+      tree_fit <- ctree(tform, data = newdata, controls = tree.control)
     }
     # Fit a CART-like regression tree
     else {
       if (cv) {
-        temp <- rpart(make_tree_formula("adj_response_values",
-                                        fixed = fixed_formula),
-                      data = newdata, control = tree.control)
+        temp <- rpart(tform, data = newdata, control = tree.control)
         opt <- temp$cptable[which.min(temp$cptable[, "xerror"]), "CP"]
         tree_fit <- prune(temp, cp = opt)
       } else {
-        tree_fit <- rpart(make_tree_formula("adj_response_values",
-                                            fixed = fixed_formula),
-                          data = newdata, control = tree.control(xval = 0))
+        tree_fit <- rpart(tform, data = newdata, 
+                          control = tree.control(xval = 0))
       }
-
+      
     }
+<<<<<<< HEAD
 
     if (do.trace) {
       cat("     - nleaves:", nleaves(tree_fit), "\n\n")
     }
 
+=======
+    
+>>>>>>> 4ce8a3adb0064f3e340fef5f52344595d8087201
     # Add terminal node indicator variable
     .where <- if (unbiased) where(tree_fit) else tree_fit$where
     newdata[["terminal_node"]] <- as.factor(.where)
@@ -128,28 +126,33 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
     ############################################################################
 
     if (do.trace) {
-      cat("  2. fitting mixed-effects model...", "\n\n")
+      cat("  2. fitting mixed-effects model...", "\n")
     }
-
+    
     # If the tree is a root (i.e., has no splits), then just fit an intercept
     if (min(.where) == max(.where)) {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "1"),
                        data = newdata, REML = REML, control = lmer.control,
                        verbose = lmer.verbose)
     }
-    # Otherwise, fit an linear mixed-effects model using a factor for terminal
-    # node indicator as the fixed effects
+    # Otherwise, fit a linear mixed-effects model using terminal node indicator 
+    # as the sole fixed effects term
     else {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "terminal_node",
                                          random = random_formula),
                        data = newdata, REML = REML, control = lmer.control,
                        verbose = lmer.verbose)
     }
-
+    
     # Update loop control variables
     iter <- iter + 1
     new_logLik <- logLik(lmer_fit)
-    continue_condition <- (new_logLik - old_logLik) > tol & iter < maxiter
+    if (do.trace) {
+      cat("     - old logLik:", old_logLik, "\n")
+      cat("     - new logLik:", new_logLik, "\n")
+      cat("     - |difference|:", abs(new_logLik - old_logLik), "\n\n")
+    }
+    continue_condition <- abs(new_logLik - old_logLik) > tol & iter < maxiter
     old_logLik <- new_logLik
 
     # Update adjusted response values
