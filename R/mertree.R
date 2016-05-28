@@ -114,6 +114,10 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 
     }
 
+    if (do.trace) {
+      cat("     - nleaves:", nleaves(tree_fit), "\n\n")
+    }
+
     # Add terminal node indicator variable
     .where <- if (unbiased) where(tree_fit) else tree_fit$where
     newdata[["terminal_node"]] <- as.factor(.where)
