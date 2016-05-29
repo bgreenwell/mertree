@@ -32,8 +32,8 @@
 #' @param do.trace Logical indicating whether or not to print trace information.
 #'
 #' @importFrom lme4 lmer lmerControl
+#' @importFrom rpart rpart rpart.control prune
 #' @importFrom party ctree ctree_control where
-#' @importFrom rpart prune rpart rpart.control
 #' @importFrom stats logLik predict
 #'
 #' @export
@@ -84,13 +84,14 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
     # Regression tree
     ############################################################################
 
+    # Print trace information
     if (do.trace) {
       cat("  1. fitting tree...", "\n")
     }
 
     # Tree formula
     tform <- make_tree_formula("adj_response_values", fixed = fixed_formula)
-    
+
     # Fit a conditional inference tree
     if (unbiased) {
       tree_fit <- ctree(tform, data = newdata, controls = tree.control)
@@ -102,20 +103,17 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
         opt <- temp$cptable[which.min(temp$cptable[, "xerror"]), "CP"]
         tree_fit <- prune(temp, cp = opt)
       } else {
-        tree_fit <- rpart(tform, data = newdata, 
+        tree_fit <- rpart(tform, data = newdata,
                           control = tree.control(xval = 0))
       }
-      
-    }
-<<<<<<< HEAD
 
+    }
+
+    # Print trace information
     if (do.trace) {
       cat("     - nleaves:", nleaves(tree_fit), "\n\n")
     }
 
-=======
-    
->>>>>>> 4ce8a3adb0064f3e340fef5f52344595d8087201
     # Add terminal node indicator variable
     .where <- if (unbiased) where(tree_fit) else tree_fit$where
     newdata[["terminal_node"]] <- as.factor(.where)
@@ -125,17 +123,18 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
     # Linear mixed-effects model
     ############################################################################
 
+    # Print trace information
     if (do.trace) {
       cat("  2. fitting mixed-effects model...", "\n")
     }
-    
+
     # If the tree is a root (i.e., has no splits), then just fit an intercept
     if (min(.where) == max(.where)) {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "1"),
                        data = newdata, REML = REML, control = lmer.control,
                        verbose = lmer.verbose)
     }
-    # Otherwise, fit a linear mixed-effects model using terminal node indicator 
+    # Otherwise, fit a linear mixed-effects model using terminal node indicator
     # as the sole fixed effects term
     else {
       lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "terminal_node",
@@ -143,8 +142,8 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
                        data = newdata, REML = REML, control = lmer.control,
                        verbose = lmer.verbose)
     }
-    
-    # Update loop control variables
+
+    # Update loop control variables and print trace information
     iter <- iter + 1
     new_logLik <- logLik(lmer_fit)
     if (do.trace) {
@@ -152,6 +151,7 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
       cat("     - new logLik:", new_logLik, "\n")
       cat("     - |difference|:", abs(new_logLik - old_logLik), "\n\n")
     }
+
     continue_condition <- abs(new_logLik - old_logLik) > tol & iter < maxiter
     old_logLik <- new_logLik
 
@@ -161,9 +161,6 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
        # all random effects (XB + Zb)      # no random effects (XB)
 
   }
-
-  # Print warning message about terminal node means
-  # warning("terminal node estimates are incorrect")
 
   # Matched call
   mcall <- match.call()
@@ -198,26 +195,24 @@ varimp <- function(object, ...) {
   if (inherits(object$tree_fit, "rpart")) {
     object$tree_fit$variable.importance
   } else {
-    stop(paste("mertree variable importance scores are not",
-               "availble when unbiased = TRUE"))
+    stop(paste("Variable importance is not available",
+               "for unbiased regression trees."))
   }
 }
 
 
-#' @method plot mertree
 #' @importFrom graphics plot
-#' @importFrom rpart.plot prp
+#' @importFrom partykit as.party
 #' @export
 plot.mertree <- function(x, ...) {
   if (inherits(x$tree_fit, "rpart")) {
-    prp(x$tree_fit, ...)
+    plot(as.party(x$tree_fit, ...))
   } else {
     plot(x$tree_fit, ...)
   }
 }
 
 
-#' @method text mertree
 #' @importFrom graphics text
 #' @export
 text.mertree <- function(x, ...) {
@@ -225,21 +220,18 @@ text.mertree <- function(x, ...) {
 }
 
 
-#' @method print mertree
 #' @export
 print.mertree <- function(x, ...) {
   print(x$lmer_fit)
 }
 
 
-#' @method summary mertree
 #' @export
 summary.mertree <- function(object, ...) {
   summary(object$lmer_fit)
 }
 
 
-#' @method confint mertree
 #' @importFrom stats confint
 #' @export
 confint.mertree <- function(object, ...) {
@@ -247,7 +239,6 @@ confint.mertree <- function(object, ...) {
 }
 
 
-#' @method predict mertree
 #' @importFrom stats predict
 #' @export
 predict.mertree <- function(object, ...) {

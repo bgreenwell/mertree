@@ -2,9 +2,18 @@
 % Please edit documentation in R/assign_node.R
 \name{assign_node}
 \alias{assign_node}
+\alias{assign_node.BinaryTree}
+\alias{assign_node.mertree}
+\alias{assign_node.rpart}
 \title{Terminal Node Assignment}
 \usage{
 assign_node(object, newdata, na.action, ...)
+
+\method{assign_node}{rpart}(object, newdata, na.action = na.rpart, ...)
+
+\method{assign_node}{BinaryTree}(object, newdata, ...)
+
+\method{assign_node}{mertree}(object, newdata, ...)
 }
 \arguments{
 \item{object}{An object that inherits from class \code{rpart}.}
@@ -24,7 +33,6 @@ A numeric vector containing the terminal node each observation
   belongs to.
 }
 \description{
-Assign observations to a terminal node. Based on a nice hack from
-stackoverflow.
+Assign observations to a terminal node.
 }
 

@@ -15,9 +15,8 @@ Imports:
     lme4,
     magrittr,
     party,
-    plyr,
+    partykit,
     rpart,
-    rpart.plot,
     stats,
 Suggests:
     testthat

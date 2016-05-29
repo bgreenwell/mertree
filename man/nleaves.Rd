@@ -8,9 +8,9 @@
 \usage{
 nleaves(object)
 
-\method{nleaves}{rpart}(object, ...)
+\method{nleaves}{rpart}(object)
 
-\method{nleaves}{BinaryTree}(object, ...)
+\method{nleaves}{BinaryTree}(object)
 }
 \arguments{
 \item{object}{An object of class \code{"rpart"} or \code{"BinaryTree"}.}

@@ -1,10 +1,6 @@
 #' Terminal Node Assignment
 #'
-#' Assign observations to a terminal node. Based on a nice hack from
-#' stackoverflow.
-#'
-#' @rdname assign_node
-#' @export
+#' Assign observations to a terminal node.
 #'
 #' @param object An object that inherits from class \code{rpart}.
 #' @param newdata An optional data frame in which to look for variables with
@@ -17,13 +13,18 @@
 #'
 #' @return A numeric vector containing the terminal node each observation
 #'   belongs to.
+#'
+#' @rdname assign_node
+#' @export
 assign_node <- function(object, newdata, na.action, ...) {
   UseMethod("assign_node")
 }
 
 
-#' @method assign_node rpart
+#' @importFrom rpart na.rpart
 #' @importFrom stats .checkMFClasses delete.response model.frame
+#' @rdname assign_node
+#' @export
 assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
 
   # Use rpart internals to predict terminal node assignments
@@ -43,23 +44,8 @@ assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
 }
 
 
-#' @importFrom stats predict
-assign_node.rpart <- function(object, newdata, ...) {
-
-  # Extract data if none are specified
-  .data <- if (missing(newdata)) eval(object$call$data) else newdata
-
-  # Replace fitted values with the corresponding node number
-  object$frame$yval <- seq_len(NROW(object$frame))
-  # object$frame$yval <- rownames(object$frame)  # as.numeric(rownames(object$frame))
-
-  # Return node predictions
-  unname(predict(object, newdata = .data, type = "vector", ...))
-
-}
-
-
-#' @method assign_node BinaryTree
+#' @rdname assign_node
+#' @export
 assign_node.BinaryTree <- function(object, newdata, ...) {
 
   # Extract data if none are specified
@@ -71,7 +57,8 @@ assign_node.BinaryTree <- function(object, newdata, ...) {
 }
 
 
-#' @method assign_node mertree
+#' @rdname assign_node
+#' @export
 assign_node.mertree <- function(object, newdata, ...) {
 
   # Extract data if none are specified

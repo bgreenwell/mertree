@@ -28,13 +28,13 @@ nleaves <- function(object) {
 
 #' @export
 #' @rdname nleaves
-nleaves.rpart <- function(object, ...) {
+nleaves.rpart <- function(object) {
   length(unique(object$where))
 }
 
 
 #' @export
 #' @rdname nleaves
-nleaves.BinaryTree <- function(object, ...) {
+nleaves.BinaryTree <- function(object) {
   length(unique(where(object)))
 }
