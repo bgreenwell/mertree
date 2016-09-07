@@ -17,7 +17,7 @@
 #' @rdname assign_node
 #' @export
 assign_leaf <- function(object, newdata, na.action, ...) {
-  UseMethod("assign_node")
+  UseMethod("assign_leaf")
 }
 
 
