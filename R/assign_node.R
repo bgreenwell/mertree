@@ -21,42 +21,6 @@ assign_node <- function(object, newdata, na.action, ...) {
 }
 
 
-#' @importFrom rpart na.rpart
-#' @importFrom stats .checkMFClasses delete.response model.frame
-#' @rdname assign_node
-#' @export
-assign_node.rpart <- function(object, newdata, na.action = na.rpart, ...) {
-
-  # Use rpart internals to predict terminal node assignments
-  if (missing(newdata)) {
-    object$where
-  } else {
-    if (is.null(attr(newdata, "terms"))) {
-      Terms <- delete.response(object$terms)
-      newdata <- model.frame(Terms, newdata, na.action = na.action,
-                             xlev = attr(object, "xlevels"))
-      if (!is.null(cl <- attr(Terms, "dataClasses"))) {
-        .checkMFClasses(cl, m = newdata, ordNotOK = TRUE)
-      }
-    }
-    rpart:::pred.rpart(object, rpart:::rpart.matrix(newdata))
-  }
-}
-
-
-#' @rdname assign_node
-#' @export
-assign_node.BinaryTree <- function(object, newdata, ...) {
-
-  # Extract data if none are specified
-  .data <- if (missing(newdata)) eval(object$call$data) else newdata
-
-  # Use built-in slot function
-  object@predict_response(newdata = .data, type = "node", ...)
-
-}
-
-
 #' @rdname assign_node
 #' @export
 assign_node.mertree <- function(object, newdata, ...) {
@@ -65,6 +29,6 @@ assign_node.mertree <- function(object, newdata, ...) {
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
 
   # Dispatch on first argument
-  assign_node(object$tree_fit, newdata = .data, ...)
+  treemisc::assign_node(object$tree_fit, newdata = .data, ...)
 
 }
