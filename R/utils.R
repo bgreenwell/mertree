@@ -9,3 +9,9 @@
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
 NULL
+
+
+#' @keywords internal
+superType.mertree <- function(object) {
+  "regression"
+}
