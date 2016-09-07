@@ -22,7 +22,7 @@ get_response_name <- function(formula) {
 #' @importFrom lme4 nobars
 #' @export
 get_fixed_formula <- function(formula) {
-  deparse(nobars(formula)[[3L]], width.cutoff = 500L)
+  deparse(lme4::nobars(formula)[[3L]], width.cutoff = 500L)
 }
 
 
@@ -30,7 +30,7 @@ get_fixed_formula <- function(formula) {
 #' @importFrom lme4 findbars
 #' @export
 get_random_formula <- function(formula) {
-  form <- paste0("(", findbars(formula), ")", collapse = " + ")
+  form <- paste0("(", lme4::findbars(formula), ")", collapse = " + ")
   if (form == "()") {
     NULL
   } else {
@@ -53,9 +53,9 @@ get_random_formula <- function(formula) {
 #' @export
 make_lmer_formula <- function(response, fixed, random) {
   if (missing(random) || is.null(random)) {
-    formula(paste(response, fixed, sep = " ~ "))
+    stats::formula(paste(response, fixed, sep = " ~ "))
   } else {
-    formula(paste(response, paste(fixed, random, sep = " + "), sep = " ~ "))
+    stats::formula(paste(response, paste(fixed, random, sep = " + "), sep = " ~ "))
   }
 }
 
@@ -63,5 +63,5 @@ make_lmer_formula <- function(response, fixed, random) {
 #' @rdname formula-build
 #' @export
 make_tree_formula <- function(response, fixed) {
-  formula(paste(response, fixed, sep = " ~ "))
+  stats::formula(paste(response, fixed, sep = " ~ "))
 }
