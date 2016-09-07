@@ -17,32 +17,25 @@ Bug reports should be submitted to https://github.com/bgreenwell/mertree/issues.
 ## Basic usage
 
 ```{r, warning=FALSE}
-# Required packages
-library(lattice)  # for wireframe function
+# Load required packages
 library(mertree)
+library(pdp)
 
-# Fit a mertree
+# Fit a mixed-effects regression tree
 fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject),
-              data = simd,
-              unbiased = TRUE,
-              do.trace = TRUE)
+              data = simd, unbiased = TRUE, do.trace = TRUE)
 
-# Partial dependence on time
-partial_1d(fm, x.name = "time", newdata = simd, .progress = "tk") %>%
-  plot(type = "l")
+# Partial dependence of response on time
+partial(fm, pred.var = "time", plot = TRUE)
 
-# Partial dependence on covariates (notice x3 and x6 are flat!)
+# Partial dependence of response on covariates (notice x3 and x6 are flat!)
 par(mfrow = c(3, 2))
 for (i in 1:6) {
-  partial_1d(fm, x.name = paste0("x", i), newdata = simd, .progress = "tk") %>%
-    plot(type = "l")
+  partial(fm, pred.var = paste0("x", i), plot = TRUE)
 }
 
-# Interaction between x1 and x4
-pd_14 <- partial_2d(fm, x1.name = "x1", x2.name = "x4", newdata = simd, 
-                    .progress = "tk",
-                    n1 = 20, n2 = 20)
-wireframe(y ~ x1 * x4, data = pd_14, drape = TRUE, colorkey = TRUE)
+# Is there an interaction between x1 and x4?
+partial(fm, pred.var = c("x1", "x4"), plot = TRUE)
 ```
 
 ## References
