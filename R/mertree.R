@@ -94,28 +94,32 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 
     # Fit a conditional inference tree
     if (unbiased) {
-      tree_fit <- ctree(tform, data = newdata, controls = tree.control)
+      tree_fit <- party::ctree(tform, data = newdata, controls = tree.control)
     }
     # Fit a CART-like regression tree
     else {
       if (cv) {
-        temp <- rpart(tform, data = newdata, control = tree.control)
+        temp <- rpart::rpart(tform, data = newdata, control = tree.control)
         opt <- temp$cptable[which.min(temp$cptable[, "xerror"]), "CP"]
-        tree_fit <- prune(temp, cp = opt)
+        tree_fit <- rpart::prune(temp, cp = opt)
       } else {
-        tree_fit <- rpart(tform, data = newdata,
-                          control = tree.control(xval = 0))
+        tree_fit <- rpart::rpart(tform, data = newdata,
+                                 control = tree.control(xval = 0))
       }
 
     }
 
     # Print trace information
     if (do.trace) {
-      cat("     - nleaves:", nleaves(tree_fit), "\n\n")
+      cat("     - nleaves:", treemisc::nleaves(tree_fit), "\n\n")
     }
 
     # Add terminal node indicator variable
-    .where <- if (unbiased) where(tree_fit) else tree_fit$where
+    .where <- if (unbiased) {
+      party::where(tree_fit) 
+    } else {
+      tree_fit$where
+    }
     newdata[["terminal_node"]] <- as.factor(.where)
 
 
@@ -130,22 +134,22 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 
     # If the tree is a root (i.e., has no splits), then just fit an intercept
     if (min(.where) == max(.where)) {
-      lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "1"),
-                       data = newdata, REML = REML, control = lmer.control,
-                       verbose = lmer.verbose)
+      lmer_fit <- lme4::lmer(make_lmer_formula(response_name, fixed = "1"),
+                             data = newdata, REML = REML, control = lmer.control,
+                             verbose = lmer.verbose)
     }
     # Otherwise, fit a linear mixed-effects model using terminal node indicator
     # as the sole fixed effects term
     else {
-      lmer_fit <- lmer(make_lmer_formula(response_name, fixed = "terminal_node",
-                                         random = random_formula),
-                       data = newdata, REML = REML, control = lmer.control,
-                       verbose = lmer.verbose)
+      lmer_fit <- lme4::lmer(make_lmer_formula(response_name, fixed = "terminal_node",
+                                               random = random_formula),
+                             data = newdata, REML = REML, control = lmer.control,
+                             verbose = lmer.verbose)
     }
 
     # Update loop control variables and print trace information
     iter <- iter + 1
-    new_logLik <- logLik(lmer_fit)
+    new_logLik <- stats::logLik(lmer_fit)
     if (do.trace) {
       cat("     - old logLik:", old_logLik, "\n")
       cat("     - new logLik:", new_logLik, "\n")
@@ -157,8 +161,8 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 
     # Update adjusted response values
     adj_response_values <- response_values -
-      (predict(lmer_fit, re.form = NULL) - predict(lmer_fit, re.form = NA))
-       # all random effects (XB + Zb)      # no random effects (XB)
+      (stats::predict(lmer_fit, re.form = NULL) - stats::predict(lmer_fit, re.form = NA))
+       # all random effects (XB + Zb)             # no random effects (XB)
 
   }
 
@@ -167,7 +171,7 @@ mertree <- function (formula, data, unbiased = TRUE, initial_re, REML = TRUE,
 
   # Matrix of node assignments and adjusted means
   adj_node_means <- unique(cbind("node" = .where,
-                                 "adjy" = predict(lmer_fit, re.form = NA)))
+                                 "adjy" = stats::predict(lmer_fit, re.form = NA)))
   rownames(adj_node_means) <- NULL
 
   # Return classed list of results
@@ -206,9 +210,9 @@ varimp <- function(object, ...) {
 #' @export
 plot.mertree <- function(x, ...) {
   if (inherits(x$tree_fit, "rpart")) {
-    plot(as.party(x$tree_fit, ...))
+    graphics::plot(party::as.party(x$tree_fit, ...))
   } else {
-    plot(x$tree_fit, ...)
+    graphics::plot(x$tree_fit, ...)
   }
 }
 
