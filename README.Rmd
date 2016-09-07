@@ -26,16 +26,16 @@ fm <- mertree(y ~ time + x1 + x2 + x3 + x4 + x5 + x6 + (1 | subject),
               data = simd, unbiased = TRUE, do.trace = TRUE)
 
 # Partial dependence of response on time
-partial(fm, pred.var = "time", plot = TRUE)
+partial(fm, pred.var = "time", plot = TRUE, train = simd)
 
 # Partial dependence of response on covariates (notice x3 and x6 are flat!)
 par(mfrow = c(3, 2))
 for (i in 1:6) {
-  partial(fm, pred.var = paste0("x", i), plot = TRUE)
+  partial(fm, pred.var = paste0("x", i), plot = TRUE, train = simd)
 }
 
 # Is there an interaction between x1 and x4?
-partial(fm, pred.var = c("x1", "x4"), plot = TRUE)
+partial(fm, pred.var = c("x1", "x4"), plot = TRUE, train= simd)
 ```
 
 ## References
