@@ -247,6 +247,6 @@ confint.mertree <- function(object, ...) {
 #' @export
 predict.mertree <- function(object, ...) {
   map <- object$adj_node_means  # unique key, value pairs
-  values <- assign_node(object, ...)  # new values to map
+  values <- assign_leaf(object, ...)  # new values to map
   unname(setNames(map[, "adjy"], map[, "node"])[as.character(values)])  # map new values
 }
