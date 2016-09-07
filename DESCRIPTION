@@ -1,15 +1,13 @@
 Package: mertree
 Type: Package
-Title: Regression Trees for Longitudinal and Clustered Data
+Title: Mixed-Effects Regression Trees for Longitudinal and Clustered Data
 Version: 0.0.1
-Date: 2015-12-23
 Authors@R: person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com",
   role = c("aut", "cre"))
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: An alternative implementation of REEMtree and REEMctree that uses
-    lme4 for efficient computation of mixed-effects models with large data sets.
+Description: An alternative implementation of REEMtree/REEMctree that uses lme4 
+  for efficient computation of mixed-effects models with large data sets.
 Depends:
-    base,
+    R (>= 3.2.5)
 Imports:
     graphics,
     lme4,
@@ -18,6 +16,7 @@ Imports:
     partykit,
     rpart,
     stats,
+    treemisc
 Suggests:
     testthat
 License: GPL (>= 2)
