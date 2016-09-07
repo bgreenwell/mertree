@@ -16,19 +16,19 @@
 #'
 #' @rdname assign_node
 #' @export
-assign_node <- function(object, newdata, na.action, ...) {
+assign_leaf <- function(object, newdata, na.action, ...) {
   UseMethod("assign_node")
 }
 
 
-#' @rdname assign_node
+#' @rdname assign_leaf
 #' @export
-assign_node.mertree <- function(object, newdata, ...) {
+assign_leaf.mertree <- function(object, newdata, ...) {
 
   # Extract data if none are specified
   .data <- if (missing(newdata)) eval(object$call$data) else newdata
 
   # Dispatch on first argument
-  treemisc::assign_node(object$tree_fit, newdata = .data, ...)
+  treemisc::assign_leaf(object$tree_fit, newdata = .data, ...)
 
 }
